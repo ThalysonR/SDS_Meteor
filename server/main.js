@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor';
-import '../imports/api/tasks.js';
+// import '../imports/api/tasks.js';
+import '../imports/api/posts.js';
 import '../imports/startup/server/defaultUser.js';
 
 Meteor.startup(() => {

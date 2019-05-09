@@ -10,6 +10,7 @@ import Typography from '@material-ui/core/Typography';
 import Snackbar from '@material-ui/core/Snackbar';
 import SnackbarContent from '@material-ui/core/SnackbarContent';
 import { withStyles } from '@material-ui/core/styles';
+import { withRouter } from 'react-router';
 
 const styles = theme => ({
   main: {
@@ -63,7 +64,11 @@ class SignIn extends Component {
   handleSubmit(e) {
     e.preventDefault();
     Meteor.loginWithPassword(this.state.email, this.state.password, err => {
-      this.setState({ error: err.reason, snack: true });
+      if (err) {
+        this.setState({ error: err.reason, snack: true });
+      } else {
+        this.props.history.push('/blog');
+      }
     });
   }
 
@@ -113,4 +118,4 @@ class SignIn extends Component {
   }
 }
 
-export default withStyles(styles)(SignIn);
+export default withRouter(withStyles(styles)(SignIn));

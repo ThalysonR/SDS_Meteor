@@ -1,8 +1,10 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
+import Person from '@material-ui/icons/Person';
 import { withStyles } from '@material-ui/core/styles';
+import { withRouter } from 'react-router';
 import Button from '@material-ui/core/Button';
 import { Meteor } from 'meteor/meteor';
 
@@ -18,9 +20,12 @@ const styles = theme => ({
 class Navbar extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      user: Meteor.user(),
-    };
+    this.logout = this.logout.bind(this);
+  }
+
+  logout() {
+    Meteor.logout();
+    this.props.history.push('/login');
   }
 
   render() {
@@ -31,10 +36,25 @@ class Navbar extends Component {
             <Typography variant="h6" color="inherit" className={this.props.classes.grow}>
               SDS Private Blog
             </Typography>
-            {this.state.user ? (
-              <div>this.state.user.username</div>
+            {this.props.user ? (
+              <Fragment>
+                <Person />
+                <Typography variant="h6" color="inherit">
+                  {this.props.user.username.toUpperCase()}
+                </Typography>
+                <Button color="inherit" onClick={this.logout}>
+                  Logout
+                </Button>
+              </Fragment>
             ) : (
-              <Button color="inherit">Sign Up</Button>
+              <Fragment>
+                <Button color="inherit" onClick={() => this.props.history.push('/signup')}>
+                  Sign Up
+                </Button>
+                <Button color="inherit" onClick={() => this.props.history.push('/login')}>
+                  Sign In
+                </Button>
+              </Fragment>
             )}
           </Toolbar>
         </AppBar>
@@ -43,4 +63,4 @@ class Navbar extends Component {
   }
 }
 
-export default withStyles(styles)(Navbar);
+export default withRouter(withStyles(styles)(Navbar));
