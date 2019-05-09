@@ -4,19 +4,19 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 
-const styles = {
+const styles = theme => ({
   root: {
     flexGrow: 1,
   },
   grow: {
     flexGrow: 1,
   },
-};
+});
 
 function Navbar({ classes }) {
   return (
     <div className={classes.root}>
-      <AppBar position="static" color="default">
+      <AppBar position="static">
         <Toolbar>
           <Typography variant="h6" color="inherit" className={classes.grow}>
             SDS Private Blog
