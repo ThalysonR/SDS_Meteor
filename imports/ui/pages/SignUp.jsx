@@ -53,7 +53,6 @@ class SignUp extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    console.log(this.state);
     Accounts.createUser(
       { email: this.state.email, username: this.state.username, password: this.state.password },
       err => {

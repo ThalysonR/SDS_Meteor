@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import Typography from '@material-ui/core/Typography';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
-import { Person, Visibility, Delete } from '@material-ui/icons';
+import { Person, Visibility, Delete, Edit } from '@material-ui/icons';
 import { withStyles } from '@material-ui/core/styles';
 import { withRouter } from 'react-router';
 
@@ -23,7 +23,7 @@ function viewPost(id, history) {
   history.push(`/blog/${id}`);
 }
 
-function Post({ post, user, classes, history, deletePost }) {
+function Post({ post, user, classes, history, deletePost, editClick }) {
   return (
     <Card>
       <CardContent>
@@ -37,7 +37,10 @@ function Post({ post, user, classes, history, deletePost }) {
           <span>
             <Visibility className={classes.action} onClick={() => viewPost(post._id, history)} />
             {Roles.userIsInRole(user._id, ['admin']) ? (
-              <Delete className={classes.action} onClick={() => deletePost(post._id)} />
+              <Fragment>
+                <Edit className={classes.action} onClick={() => editClick(post)} />
+                <Delete className={classes.action} onClick={() => deletePost(post._id)} />
+              </Fragment>
             ) : null}
           </span>
         </div>

@@ -23,7 +23,7 @@ export const renderRoutes = () => (
       <Route exact path="/signup" component={SignUp} />
       <AuthGuard exact path="/blog/:id" component={PostDetailContainer} />
       <AuthGuard exact path="/blog" component={BlogContainer} />
-      <AuthGuard exact path="/admin/users" component={UsersContainer} />
+      <AuthGuard exact path="/admin/users" roles={['admin']} component={UsersContainer} />
       <Route exact path="/" component={AppContainer} />
     </Switch>
   </Router>

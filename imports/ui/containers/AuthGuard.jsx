@@ -9,20 +9,28 @@ const Unauthorized = () => (
   </Paper>
 );
 
-export default withTracker(() => {
-  const user = Meteor.user();
-  return { user };
-})(AuthGuard);
+function checkRoles(id, roles) {
+  if (roles == null || roles.length == 0) {
+    return true;
+  } else {
+    return Roles.userIsInRole(id, roles);
+  }
+}
 
-function AuthGuard({ component, path, user, exact, computedMatch }) {
-  const Component = component;
+function AuthGuard(props) {
+  const Component = props.component;
   return (
     <Fragment>
-      {user ? (
-        <Component path={path} exact={exact} user={user} computedMatch={computedMatch} />
+      {props.user && checkRoles(props.user._id, props.roles) ? (
+        <Component {...props} />
       ) : (
         <Unauthorized />
       )}
     </Fragment>
   );
 }
+
+export default withTracker(() => {
+  const user = Meteor.user();
+  return { user };
+})(AuthGuard);

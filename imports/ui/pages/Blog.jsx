@@ -1,13 +1,9 @@
 import React, { Component } from 'react';
 import Paper from '@material-ui/core/Paper';
-import TextField from '@material-ui/core/TextField';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import FormControl from '@material-ui/core/FormControl';
-import Input from '@material-ui/core/Input';
-import InputLabel from '@material-ui/core/InputLabel';
+
 import { withStyles } from '@material-ui/core/styles';
 import Post from './Post';
+import PostUC from './PostUC';
 
 const styles = theme => ({
   main: {
@@ -21,17 +17,6 @@ const styles = theme => ({
       marginRight: 'auto',
     },
   },
-  newPost: {
-    marginTop: theme.spacing.unit * 5,
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${theme.spacing.unit * 3}px`,
-  },
-  submit: {
-    alignSelf: 'start',
-    marginTop: theme.spacing.unit * 2,
-  },
   posts: {
     marginTop: theme.spacing.unit * 5,
   },
@@ -40,62 +25,52 @@ const styles = theme => ({
 class Blog extends Component {
   constructor(props) {
     super(props);
-    this.onChange = this.onChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+    this.insertPost = this.insertPost.bind(this);
+    this.editClick = this.editClick.bind(this);
+    this.editPost = this.editPost.bind(this);
     this.state = {
-      title: '',
-      description: '',
+      editPost: { title: '', description: '' },
+      submitFn: this.insertPost,
     };
   }
 
-  onChange(e) {
-    e.preventDefault();
-    this.setState({ [e.target.name]: e.target.value });
+  insertPost(post) {
+    this.props.insertPost(post.title, post.description, this.props.user.username);
   }
 
-  handleSubmit(e) {
-    e.preventDefault();
-    this.props.insertPost(this.state.title, this.state.description, this.props.user.username);
+  editPost(post) {
+    this.props.editPost(post);
+    this.setState({
+      editPost: { title: '', description: '' },
+      submitFn: this.insertPost,
+    });
+  }
+
+  editClick(post) {
+    this.setState({
+      editPost: post,
+      submitFn: this.editPost,
+    });
   }
 
   render() {
     return (
       <main className={this.props.classes.main}>
         {Roles.userIsInRole(this.props.user._id, ['admin']) ? (
-          <Paper className={this.props.classes.newPost}>
-            <Typography variant="h6">New Post</Typography>
-            <form onSubmit={this.handleSubmit}>
-              <FormControl margin="normal" required fullWidth>
-                <InputLabel htmlFor="title">Post Title</InputLabel>
-                <Input id="title" name="title" autoFocus onChange={this.onChange} />
-              </FormControl>
-              <TextField
-                multiline={true}
-                rows="4"
-                variant="outlined"
-                fullWidth
-                name="description"
-                onChange={this.onChange}
-              />
-              <Button
-                type="submit"
-                color="primary"
-                variant="contained"
-                className={this.props.classes.submit}
-              >
-                Submit
-              </Button>
-            </form>
-          </Paper>
+          <PostUC
+            editPost={this.state.editPost}
+            submitFn={this.state.submitFn}
+            key={this.state.editPost._id || ''}
+          />
         ) : null}
         <Paper className={this.props.classes.posts}>
-          {/* <Post post={{ author: 'Thalyson', title: 'Teste', description: 'Testeeeeeeee' }} /> */}
           {this.props.posts.map(post => (
             <Post
               key={post._id}
               post={post}
               user={this.props.user}
               deletePost={this.props.deletePost}
+              editClick={this.editClick}
             />
           ))}
         </Paper>

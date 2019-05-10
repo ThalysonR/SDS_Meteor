@@ -24,4 +24,9 @@ Meteor.methods({
 
     Posts.remove(postId);
   },
+  'posts.update'(post) {
+    check(post._id, String);
+
+    Posts.update(post._id, { $set: { title: post.title, description: post.description } });
+  },
 });
