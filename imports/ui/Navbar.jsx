@@ -17,6 +17,18 @@ const styles = theme => ({
   },
 });
 
+function UsersButton({ id, history }) {
+  if (Roles.userIsInRole(id, ['admin'])) {
+    return (
+      <Button color="inherit" onClick={() => history.push('/admin/users')}>
+        Users
+      </Button>
+    );
+  } else {
+    return null;
+  }
+}
+
 class Navbar extends Component {
   constructor(props) {
     super(props);
@@ -38,6 +50,10 @@ class Navbar extends Component {
             </Typography>
             {this.props.user ? (
               <Fragment>
+                <UsersButton id={this.props.user._id} history={this.props.history} />
+                <Button color="inherit" onClick={() => this.props.history.push('/blog')}>
+                  Blog
+                </Button>
                 <Person />
                 <Typography variant="h6" color="inherit">
                   {this.props.user.username.toUpperCase()}

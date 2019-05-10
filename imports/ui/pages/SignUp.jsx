@@ -60,7 +60,7 @@ class SignUp extends Component {
         if (err) {
           console.log(err);
         } else {
-          this.props.history.push('/login');
+          this.props.history.push('/blog');
         }
       },
     );

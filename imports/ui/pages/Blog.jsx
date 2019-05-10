@@ -42,7 +42,6 @@ class Blog extends Component {
     super(props);
     this.onChange = this.onChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    console.log(this.props.posts);
     this.state = {
       title: '',
       description: '',
@@ -56,39 +55,49 @@ class Blog extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    console.log(this.state);
+    this.props.insertPost(this.state.title, this.state.description, this.props.user.username);
   }
 
   render() {
     return (
       <main className={this.props.classes.main}>
-        <Paper className={this.props.classes.newPost}>
-          <Typography variant="h6">New Post</Typography>
-          <form onSubmit={this.handleSubmit}>
-            <FormControl margin="normal" required fullWidth>
-              <InputLabel htmlFor="title">Post Title</InputLabel>
-              <Input id="title" name="title" autoFocus onChange={this.onChange} />
-            </FormControl>
-            <TextField
-              multiline={true}
-              rows="4"
-              variant="outlined"
-              fullWidth
-              name="description"
-              onChange={this.onChange}
-            />
-            <Button
-              type="submit"
-              color="primary"
-              variant="contained"
-              className={this.props.classes.submit}
-            >
-              Submit
-            </Button>
-          </form>
-        </Paper>
+        {Roles.userIsInRole(this.props.user._id, ['admin']) ? (
+          <Paper className={this.props.classes.newPost}>
+            <Typography variant="h6">New Post</Typography>
+            <form onSubmit={this.handleSubmit}>
+              <FormControl margin="normal" required fullWidth>
+                <InputLabel htmlFor="title">Post Title</InputLabel>
+                <Input id="title" name="title" autoFocus onChange={this.onChange} />
+              </FormControl>
+              <TextField
+                multiline={true}
+                rows="4"
+                variant="outlined"
+                fullWidth
+                name="description"
+                onChange={this.onChange}
+              />
+              <Button
+                type="submit"
+                color="primary"
+                variant="contained"
+                className={this.props.classes.submit}
+              >
+                Submit
+              </Button>
+            </form>
+          </Paper>
+        ) : null}
         <Paper className={this.props.classes.posts}>
-          <Post post={{ author: 'Thalyson', title: 'Teste', description: 'Testeeeeeeee' }} />
+          {/* <Post post={{ author: 'Thalyson', title: 'Teste', description: 'Testeeeeeeee' }} /> */}
+          {this.props.posts.map(post => (
+            <Post
+              key={post._id}
+              post={post}
+              user={this.props.user}
+              deletePost={this.props.deletePost}
+            />
+          ))}
         </Paper>
       </main>
     );

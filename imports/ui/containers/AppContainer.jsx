@@ -9,12 +9,16 @@ class AppContainer extends Component {
     };
     if (!this.state.isAuthenticated) {
       this.props.history.push('/login');
+    } else {
+      this.props.history.push('/blog');
     }
   }
 
   componentDidUpdate() {
     if (!this.state.isAuthenticated) {
       this.props.history.push('/login');
+    } else {
+      this.props.history.push('/blog');
     }
   }
   render() {
