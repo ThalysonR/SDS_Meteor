@@ -2,7 +2,7 @@
 
 Steps to execute: 
 meteor npm install
-meteor
+\nmeteor
 
 Admin user is set by default:
 email = admin@admin
