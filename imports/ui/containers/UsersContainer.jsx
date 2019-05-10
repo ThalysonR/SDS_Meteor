@@ -1,6 +1,6 @@
 import { withTracker } from 'meteor/react-meteor-data';
 
-import Users from '../../ui/pages/Users.jsx';
+import Users from '../pages/Users.jsx';
 
 const UsersContainer = withTracker(() => {
   Meteor.subscribe('userList');

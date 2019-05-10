@@ -1,12 +1,10 @@
 import React, { Fragment } from 'react';
-import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
 import { withTracker } from 'meteor/react-meteor-data';
 
 const Unauthorized = () => (
-  <Paper>
-    <Typography variant="h1">Unauthorized</Typography>
-  </Paper>
+  <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '90%' }}>
+    <img src="/unauthorized.png" />
+  </div>
 );
 
 function checkRoles(id, roles) {

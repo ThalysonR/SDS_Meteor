@@ -5,7 +5,7 @@ import { createBrowserHistory } from 'history';
 import AuthGuard from '../../ui/containers/AuthGuard.jsx';
 import BlogContainer from '../../ui/containers/BlogContainer.jsx';
 import PostDetailContainer from '../../ui/containers/PostDetailContainer.jsx';
-import UsersContainer from '../../ui/containers/UsersContiainer.jsx';
+import UsersContainer from '../../ui/containers/UsersContainer.jsx';
 import SignIn from '../../ui/pages/SignIn.jsx';
 import SignUp from '../../ui/pages/SignUp.jsx';
 import AppContainer from '../../ui/containers/AppContainer.jsx';
